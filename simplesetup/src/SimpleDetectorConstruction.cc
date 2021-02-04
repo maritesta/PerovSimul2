@@ -30,6 +30,10 @@ void SimpleDetectorConstruction::DefineMaterials()
   G4Element* Si = new G4Element("Silicon",  "Si", z=14., a= 28.09*g/mole);
   G4Element* H  = new G4Element("Hydrogen" ,"H" , 1.,  1.01*g/mole);
   G4Element* C  = new G4Element("Carbon"   ,"C" , 6., 12.00*g/mole);
+  // 
+  G4Element* N  = new G4Element("Nitrogen", "N",  z=7., a=14.007*g/mole);
+  G4Element* Pb = new G4Element("Lead",     "Pb", z=82, a=207*g/mole);
+  G4Element* Br = new G4Element("Bromine",  "Br", z=35, a=79.9*g/mole); 
 
   G4Material* plastic = 
     new G4Material("plastic", 1.0*g/cm3, 2);
@@ -40,6 +44,14 @@ void SimpleDetectorConstruction::DefineMaterials()
   LYSO->AddElement(Lu, 2);
   LYSO->AddElement(Si, 1);
   LYSO->AddElement(O,  5);
+
+  G4Material* PEROV = new G4Material("PEROV", density=3.8*g/cm3,6,kStateSolid);
+  PEROV->AddElement(C, 1);
+  PEROV->AddElement(H, 3);
+  PEROV->AddElement(N, 1);
+  PEROV->AddElement(H, 3);
+  PEROV->AddElement(Pb, 1);
+  PEROV->AddElement(Br, 3);
 }
 
 G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
@@ -83,7 +95,7 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
   // ------------------------------------  
   // Crystal
   G4Material* cryst_mat = nist->FindOrBuildMaterial("LYSO");
-  // G4double cryst_dX = 0.42426407*cm, cryst_dY = 0.42426407*cm, cryst_dZ = 0.1*cm;       // 0.18cm^2
+  // G4Material* cryst_mat = nist->FindOrBuildMaterial("PEROV");
   G4double cryst_dX = 3.*cm, cryst_dY = 3.*cm, cryst_dZ = 3.*cm;       
   
   G4Box* solidCryst = new G4Box("crystal", cryst_dX/2, cryst_dY/2, cryst_dZ/2);
@@ -109,6 +121,7 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
 
   // ------------------------------------  
   // Source containter
+  // Chiara: To be commented for alpha studies
   G4Material* plastic_mat = nist->FindOrBuildMaterial("plastic");
   G4double source_radius = 10*mm,  source_dZ = 3.*mm;        
   G4Tubs* source = new G4Tubs("source", 0, source_radius, source_dZ/2, 0, 2*M_PI);
@@ -118,7 +131,6 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
   rotmD.rotateZ(180*deg);
   G4ThreeVector positionD(0,0,0);
   G4Transform3D transformD = G4Transform3D(rotmD,positionD);
-                                    
   new G4PVPlacement(transformD, logicSource, "source", logicWorld, false, 1, checkOverlaps); 
 
   // --------------------------------------------------
