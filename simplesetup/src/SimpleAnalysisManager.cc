@@ -45,6 +45,11 @@ void SimpleAnalysisManager::BookHisto()
   G4double fHistTMin = 1E15;
   G4int fHistNBinT = 100;
   G4int fHistNBinE = 2500;
+
+  // Chiara, for alpha
+  // G4double fHistEMax = 7000;
+  // G4double fHistEMin = 3500;
+  // G4int fHistNBinE = 3500;
   
   fHisto->Add1D("H0", "Energy deposit (keV) in scintillator", fHistNBinE,fHistEMin,fHistEMax);
   fHisto->Add1D("H1", "1st Time deposit (nanosecond) in scintillator", fHistNBinT,fHistTMin,fHistTMax);
