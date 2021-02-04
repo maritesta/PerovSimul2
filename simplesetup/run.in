@@ -1,0 +1,12 @@
+# Macro file for a simple setup example
+
+/run/initialize
+
+/control/verbose 2
+/run/verbose 1
+/event/verbose 1
+/tracking/verbose 1
+
+/gun/particle ion
+/gun/ion 11 22
+/run/beamOn 1000000
