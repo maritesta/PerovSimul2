@@ -30,18 +30,26 @@ void SimpleSteppingAction::UserSteppingAction(const G4Step* step)
 
   SimpleAnalysisManager* analysis = SimpleAnalysisManager::GetInstance();
 
+  // Chiara: for egamma studies        
   if (StepNo == 1) { //beginning of step                                                                      
     G4double energy = step->GetPreStepPoint()->GetKineticEnergy()/keV;
     G4String partType= fTrack->GetDefinition()->GetParticleType();
-
+    
     if (fTrack->GetTrackID() != 1 ){
       if (fTrack->GetCreatorProcess()->GetProcessName() == "RadioactiveDecay") {   //Radioactive decay products    
-
-        // emitted particles except nuclei   
+	// emitted particles except nuclei   
 	if ( partType!= "nucleus") analysis->AddParticle(energy);    
       }
     }
   } // 1st step
+
+  /*
+  // Chiara: for alpha studies
+  if (StepNo == 1) { //beginning of step  
+    G4double energy = step->GetPreStepPoint()->GetKineticEnergy()/keV;
+    if (energy>0 && fTrack->GetDefinition()->GetParticleName() == "alpha" ) analysis->AddParticle(energy);    
+  }
+  */
 
   // energy deposition in the scintillator
   if (!fScoringVolume) { 
@@ -57,12 +65,17 @@ void SimpleSteppingAction::UserSteppingAction(const G4Step* step)
   // check if we are in scoring volume
   if (volume != fScoringVolume) return;
 
+  // chiara, for alpha studies only:
+  // if (fTrack->GetDefinition()->GetParticleName() != "alpha") return;
+  // if (edepStep<0) return;
+  // chiara, for alpha studies only:
+
   G4double edepStep = step->GetTotalEnergyDeposit()/keV;
 
   if (fTrack->GetTrackID() != 1 && edepStep) {
     if (volume == fScoringVolume) analysis->AddEnergy(edepStep,weight,time);  
     if (volume == fScoringVolume) fEventAction->AddEdep(edepStep);  
-  }
+  }      
 }
 
 
