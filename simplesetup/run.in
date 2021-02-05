@@ -7,7 +7,12 @@
 /event/verbose 1
 /tracking/verbose 1
 
-/gun/particle ion
-#/gun/ion 95 241
-/gun/ion 11 22
-/run/beamOn 10
+#/gun/particle ion
+##/gun/ion 95 241
+#/gun/ion 11 22
+#my
+/gun/particle e-
+#/gun/particle gamma
+#/gun/energy 1.2 MeV
+/gun/energy 100 MeV
+/run/beamOn 10000

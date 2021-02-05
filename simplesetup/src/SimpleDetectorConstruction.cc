@@ -90,14 +90,15 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
 
   // ------------------------------------  
   // Distance source / crystal
-  G4double ring  = 2*cm;           
-  
+//  G4double ring  = 2*cm;           
+  G4double ring  = 0.01*cm; 
   // ------------------------------------  
   // Crystal
   G4Material* cryst_mat = nist->FindOrBuildMaterial("LYSO");
-  // G4Material* cryst_mat = nist->FindOrBuildMaterial("PEROV");
+// G4Material* cryst_mat = nist->FindOrBuildMaterial("plastic"); 
+ // G4Material* cryst_mat = nist->FindOrBuildMaterial("PEROV");
   G4double cryst_dX = 3.*cm, cryst_dY = 3.*cm, cryst_dZ = 3.*cm;       
-  
+//  G4double cryst_dX = 3.*cm, cryst_dY = 3.*cm, cryst_dZ = 0.64*cm;
   G4Box* solidCryst = new G4Box("crystal", cryst_dX/2, cryst_dY/2, cryst_dZ/2);
   G4LogicalVolume* logicCryst = 
     new G4LogicalVolume(solidCryst,          //its solid
@@ -122,6 +123,7 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
   // ------------------------------------  
   // Source containter
   // Chiara: To be commented for alpha studies
+/*
   G4Material* plastic_mat = nist->FindOrBuildMaterial("plastic");
   G4double source_radius = 10*mm,  source_dZ = 3.*mm;        
   G4Tubs* source = new G4Tubs("source", 0, source_radius, source_dZ/2, 0, 2*M_PI);
@@ -132,7 +134,7 @@ G4VPhysicalVolume* SimpleDetectorConstruction::Construct()
   G4ThreeVector positionD(0,0,0);
   G4Transform3D transformD = G4Transform3D(rotmD,positionD);
   new G4PVPlacement(transformD, logicSource, "source", logicWorld, false, 1, checkOverlaps); 
-
+*/
   // --------------------------------------------------
   // Set crystals scoring volume
   fScoringVolume = logicCryst;      

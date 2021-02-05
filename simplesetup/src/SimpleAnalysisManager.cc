@@ -53,7 +53,7 @@ void SimpleAnalysisManager::BookHisto()
   
   fHisto->Add1D("H0", "Energy deposit (keV) in scintillator", fHistNBinE,fHistEMin,fHistEMax);
   fHisto->Add1D("H1", "1st Time deposit (nanosecond) in scintillator", fHistNBinT,fHistTMin,fHistTMax);
-  fHisto->Add1D("H2", "Decay emission spectrum (keV)",fHistNBinE,fHistEMin,fHistEMax);
+  fHisto->Add1D("H2", "Decay emission spectrum (keV)",fHistNBinE,fHistEMin,50*fHistEMax);
 }
  
 void SimpleAnalysisManager::BeginOfRun()  
